@@ -1,7 +1,7 @@
 [project]
-name = "ai-agent-setup"
+name = "persoanl-ai-agent"
 version = "0.1.0"
-description = "AI Agent setup for automating digital tasks"
+description = "Personal AI Agent for software developers in Nigeria."
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
