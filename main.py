@@ -1,13 +1,13 @@
 """Main module for AI-agent."""
 
-from utils.openai import OpenAIClient
+from agents.daily_post import DailyPostAgent
 
 
 def main():
     """Main function for AI-agent."""
-    openai_client = OpenAIClient()
-    response = openai_client.chat("Hello, how are you?")
-    print(response)
+    daily_post_agent = DailyPostAgent()
+    get_posts = daily_post_agent.generate_post()
+    print(get_posts)
 
 
 if __name__ == "__main__":
