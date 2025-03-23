@@ -9,7 +9,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Set up UV
-        uses: astral-sh/uv-action@v0
+        uses: astral-sh/setup-uv@v5
         with:
           version: "latest"
       - name: Install dependencies
