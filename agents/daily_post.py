@@ -1,6 +1,24 @@
 """ Module for daily post agent. """
 
+import os
+import requests
+from dotenv import load_dotenv
+from requests_oauthlib import OAuth1
 from utils.openai import OpenAIClient
+
+# Load environment variables
+load_dotenv()
+
+# Constants
+X_ENDPOINT = "https://api.twitter.com/2/tweets"
+X_API_KEY = os.getenv("X_API_KEY")
+X_API_KEY_SECRET = os.getenv("X_API_KEY_SECRET")
+X_ACCESS_TOKEN = os.getenv("X_ACCESS_TOKEN")
+X_ACCESS_TOKEN_SECRET = os.getenv("X_ACCESS_TOKEN_SECRET")
+
+# Validate environment variables
+if not all([X_API_KEY, X_API_KEY_SECRET, X_ACCESS_TOKEN, X_ACCESS_TOKEN_SECRET]):
+    raise ValueError("One or more X authentication tokens are not set in the environment variables.")
 
 class DailyPostAgent:
     """ Agent for generating daily post."""
@@ -8,6 +26,54 @@ class DailyPostAgent:
     def __init__(self):
         """Initializes the DailyPostAgent."""
         self.openai = OpenAIClient()
+    
+    def test_auth(self):
+        """Tests authentication with the Twitter API."""
+        url = "https://api.twitter.com/2/users/me"
+        auth = OAuth1(
+            X_API_KEY,
+            client_secret=X_API_KEY_SECRET,
+            resource_owner_key=X_ACCESS_TOKEN,
+            resource_owner_secret=X_ACCESS_TOKEN_SECRET
+        )
+        response = requests.get(url, auth=auth)
+        print(f"Test Status: {response.status_code}")
+        print(f"Test Response: {response.text}")
+        print(f"Request Headers: {response.request.headers}")
+        return response.status_code == 200
+
+    def post_on_twitter(self, post: str) -> None:
+        """Posts the generated post on Twitter.
+
+        Args:
+            post (str): The generated post.
+        """
+
+        payload = {
+            "text": post,
+            "for_super_followers_only": False,
+        }
+
+        # Set up OAuth 1.0a authentication
+        auth = OAuth1(
+            X_API_KEY,
+            client_secret=X_API_KEY_SECRET,
+            resource_owner_key=X_ACCESS_TOKEN,
+            resource_owner_secret=X_ACCESS_TOKEN_SECRET
+        )
+
+        headers = {
+            "Content-Type": "application/json",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
+        }
+
+        response = requests.post(X_ENDPOINT, json=payload, headers=headers, auth=auth)
+
+        if response.status_code != 201:
+            raise ValueError(f"Failed to post on Twitter: {response.status_code} - {response.text}")
+        else:
+            print("Tweet posted successfully!")
+
 
     def generate_post(self) -> str:
         """Generates a daily post for software developers in Nigeria.
