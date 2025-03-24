@@ -7,6 +7,8 @@ from dotenv import load_dotenv
 from requests_oauthlib import OAuth1
 from utils.openai import OpenAIClient
 
+from agents.social_media.content_creator import test as test_content_creator
+
 
 # Load environment variables
 load_dotenv()
@@ -19,6 +21,7 @@ X_API_SECRET = os.getenv("X_CLIENT_SECRET")
 X_ACCESS_TOKEN = os.getenv("X_ACCESS_TOKEN")
 X_ACCESS_TOKEN_SECRET = os.getenv("X_ACCESS_TOKEN_SECRET")
 
+
 def test_main():
     """Test function for AI-agent."""
     # TODO: Add tests for AI-agent
@@ -29,7 +32,9 @@ def test_main():
         print(response)
     print("---\n Done testing AI-agent. \n---")
 
+
 def test_auth():
+    """Test function for authentication."""
     url = "https://api.twitter.com/2/users/me"
     auth = OAuth1(
         X_API_KEY,
@@ -41,6 +46,8 @@ def test_auth():
     print(f"Test Status: {response.status_code}")
     print(f"Test Response: {response.text}")
 
+
 if __name__ == "__main__":
-    test_auth()
-    # test_main()
+    test_content_creator()
+    # test_auth() BUG: Fix this
+    test_main()
