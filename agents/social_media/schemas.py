@@ -29,6 +29,8 @@ class TweetFields(BaseModel):
     """
     Time: TimeEnum
     Status: StatusEnum
+    Content: str
+    Date: str
 
 
 class TweetSheet(BaseModel):
@@ -37,4 +39,4 @@ class TweetSheet(BaseModel):
     """
     id: str
     createdTime: str
-    fields: TweetFields
+    fields: list[TweetFields]
