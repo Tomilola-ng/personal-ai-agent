@@ -1,5 +1,5 @@
 # Personal AI Agent
 
-This is a personal AI agent that generates daily posts for software developers in Nigeria.
+This is a personal AI agent for automating my social media tasks, e.g posting and commenting e.t.c
 
-NOTE: This uses the [AI agent setup github template.](https://github.com/Tomilola-ng/ai-agent-setup)
+NOTE: This uses my personal [AI agent setup GitHub template.](https://github.com/Tomilola-ng/ai-agent-setup)
